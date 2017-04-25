@@ -17,7 +17,7 @@ const notes = [
 
 const delay = (s, value) =>
   new Promise(resolve => {
-    setTimeout(() => resolve(value), s * 1000);
+    setTimeout(() => resolve(value), s * 1);
   });
 
 const note = {
@@ -28,8 +28,11 @@ const note = {
     return delay(1, find(propEq('id', parseInt(id)), notes));
   },
   create: note => {
+    let ids = notes.map(note => note.id * 1);
+    note.id = Math.max(...ids) + 1;
     notes.unshift(note);
-    return delay(1, true);
+    
+    return delay(1, note);
   },
   update: (id, updates) => {
     const idx = findIndex(propEq('id', parseInt(id)), notes);
